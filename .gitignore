@@ -1,0 +1,30 @@
+# Secrets
+.env
+.env.local
+.env.*.local
+**/application-local.properties
+
+# Backend
+backend/target/
+backend/.idea/
+backend/*.iml
+backend/data/
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# OS / IDE
+.DS_Store
+*.log
+.idea/
+.vscode/
+*.swp
+
+# Docker volumes
+mysql_data/
+postgres_data/
+backend/.classpath
+backend/.project
+backend/.settings/
