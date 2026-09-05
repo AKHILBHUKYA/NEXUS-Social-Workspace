@@ -1,0 +1,2 @@
+NEXUS Social Intelligence Workspace v3.0.0
+Final real-time integration package

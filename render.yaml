@@ -1,0 +1,52 @@
+services:
+  - type: web
+    name: nexus-backend
+    runtime: java
+    plan: free
+    buildCommand: mvn clean package -DskipTests
+    startCommand: java -jar target/nexus-social-workspace-3.0.0.jar
+    healthCheckPath: /api/health
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: DB_URL
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_DRIVER
+        value: org.postgresql.Driver
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+      - key: AI_PROVIDER
+        value: groq
+      - key: AI_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: llama-3.3-70b-versatile
+      - key: DDL_AUTO
+        value: validate
+
+      - key: BACKEND_URL
+        sync: false
+      - key: SOCIAL_META_CLIENT_ID
+        sync: false
+      - key: SOCIAL_META_CLIENT_SECRET
+        sync: false
+      - key: SOCIAL_META_GRAPH_VERSION
+        value: v23.0
+      - key: SOCIAL_X_CLIENT_ID
+        sync: false
+      - key: SOCIAL_X_CLIENT_SECRET
+        sync: false
+      - key: SOCIAL_X_SCOPES
+        value: "tweet.read tweet.write users.read offline.access"
+      - key: SOCIAL_WHATSAPP_PHONE_NUMBER_ID
+        sync: false
+      - key: META_WEBHOOK_VERIFY_TOKEN
+        sync: false

@@ -1,0 +1,46 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: nexus
+      POSTGRES_USER: nexus
+      POSTGRES_PASSWORD: nexus_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nexus"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      PORT: 8080
+      DB_URL: jdbc:postgresql://db:5432/nexus
+      DB_USERNAME: nexus
+      DB_PASSWORD: nexus_local
+      DB_DRIVER: org.postgresql.Driver
+      JWT_SECRET: local-dev-secret-change-in-prod-32chars
+      FRONTEND_URL: http://localhost:5173
+      AI_BASE_URL: https://api.groq.com/openai/v1
+      AI_API_KEY: ${AI_API_KEY:-}
+      AI_MODEL: llama-3.3-70b-versatile
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
